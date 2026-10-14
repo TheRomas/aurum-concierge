@@ -29,18 +29,21 @@ async function processAllImages() {
         .jpeg({ quality: 98 })
         .toFile(path.join(dir, 'foto_motorista_executivo.jpg'));
 
-    // 3. Slide 04 - SUV Jeep Compass (Pure car without top/bottom/right text)
-    const slide04 = path.join(dir, 'Aurum_Concierge_Slide_04_CORTE_CORRETO.jpg');
-    const meta04 = await sharp(slide04).metadata();
-    const top04 = Math.floor(meta04.height * 0.22);
-    const height04 = Math.floor(meta04.height * 0.60);
-    const width04 = Math.floor(meta04.width * 0.52);
-    await sharp(slide04)
-        .extract({ left: 0, top: top04, width: width04, height: height04 })
-        .resize({ width: 1600, height: 1100, fit: 'cover' })
-        .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
-        .jpeg({ quality: 98 })
-        .toFile(path.join(dir, 'foto_frota_suv.jpg'));
+    // 3. Slide 04 - SUV Jeep Compass (Custom high-res provided by user)
+    // To re-extract from slide, pass FORCE=true
+    if (process.env.FORCE) {
+        const slide04 = path.join(dir, 'Aurum_Concierge_Slide_04_CORTE_CORRETO.jpg');
+        const meta04 = await sharp(slide04).metadata();
+        const top04 = Math.floor(meta04.height * 0.22);
+        const height04 = Math.floor(meta04.height * 0.60);
+        const width04 = Math.floor(meta04.width * 0.52);
+        await sharp(slide04)
+            .extract({ left: 0, top: top04, width: width04, height: height04 })
+            .resize({ width: 1600, height: 1100, fit: 'cover' })
+            .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
+            .jpeg({ quality: 98 })
+            .toFile(path.join(dir, 'foto_frota_suv.jpg'));
+    }
 
     // 4. Slide 05 - Car Luxury Leather Interior & Skyline view
     const slide05 = path.join(dir, 'Aurum_Concierge_Slide_05_CORTE_CORRETO.jpg');
@@ -54,30 +57,34 @@ async function processAllImages() {
         .jpeg({ quality: 98 })
         .toFile(path.join(dir, 'foto_interior_luxo.jpg'));
 
-    // 5. Slide 07 - Apoio Estudantil (Student overlooking city)
-    const slide07 = path.join(dir, 'Aurum_Concierge_Slide_07_CORTE_CORRETO.jpg');
-    const meta07 = await sharp(slide07).metadata();
-    const left07 = Math.floor(meta07.width * 0.58);
-    const width07 = meta07.width - left07;
-    await sharp(slide07)
-        .extract({ left: left07, top: 0, width: width07, height: meta07.height })
-        .resize({ width: 1600, height: 1200, fit: 'cover' })
-        .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
-        .jpeg({ quality: 98 })
-        .toFile(path.join(dir, 'foto_apoio_estudantil.jpg'));
+    // 5. Slide 07 - Apoio Estudantil (Custom high-res provided by user)
+    if (process.env.FORCE) {
+        const slide07 = path.join(dir, 'Aurum_Concierge_Slide_07_CORTE_CORRETO.jpg');
+        const meta07 = await sharp(slide07).metadata();
+        const left07 = Math.floor(meta07.width * 0.58);
+        const width07 = meta07.width - left07;
+        await sharp(slide07)
+            .extract({ left: left07, top: 0, width: width07, height: meta07.height })
+            .resize({ width: 1600, height: 1200, fit: 'cover' })
+            .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
+            .jpeg({ quality: 98 })
+            .toFile(path.join(dir, 'foto_apoio_estudantil.jpg'));
+    }
 
-    // 6. Slide 11 - Bridge Skyline with cars
-    const slide11 = path.join(dir, 'Aurum_Concierge_Slide_11_CORTE_CORRETO.jpg');
-    const meta11 = await sharp(slide11).metadata();
-    const width11 = Math.floor(meta11.width * 0.38);
-    await sharp(slide11)
-        .extract({ left: 0, top: 0, width: width11, height: meta11.height })
-        .resize({ width: 1600, height: 1200, fit: 'cover' })
-        .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
-        .jpeg({ quality: 98 })
-        .toFile(path.join(dir, 'foto_compromisso_ponte.jpg'));
+    // 6. Slide 11 - Bridge Skyline with cars (Custom high-res provided by user)
+    if (process.env.FORCE) {
+        const slide11 = path.join(dir, 'Aurum_Concierge_Slide_11_CORTE_CORRETO.jpg');
+        const meta11 = await sharp(slide11).metadata();
+        const width11 = Math.floor(meta11.width * 0.38);
+        await sharp(slide11)
+            .extract({ left: 0, top: 0, width: width11, height: meta11.height })
+            .resize({ width: 1600, height: 1200, fit: 'cover' })
+            .sharpen({ sigma: 1.4, m1: 1.8, m2: 0.8 })
+            .jpeg({ quality: 98 })
+            .toFile(path.join(dir, 'foto_compromisso_ponte.jpg'));
+    }
 
-    console.log('All 6 images successfully cleaned and rendered with high-res realism!');
+    console.log('Images processed successfully (high-res user assets preserved).');
 }
 
 processAllImages().catch(console.error);
